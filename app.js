@@ -30,7 +30,11 @@ import MarkersViewModel from './MarkersViewModel.js';
 import SearchViewModel from './SearchViewModel.js';
 import SearchPreviewViewModel from './SearchPreviewViewModel.js';
 
-/* global $, ko, WorldWind */
+/* global $, ko, WorldWind, tlejs */
+
+const TLE_URL = "https://tle.ivanstanojevic.me/api/tle/25544"
+const ISS_ALTITUDE = 400e3 // m
+
 
 $(document).ready(function () {
   "use strict";
@@ -130,35 +134,43 @@ $(document).ready(function () {
   // orbitShapeAttrs.interiorColor = new WorldWind.Color(0, 1, 1, 0.5);
   // orbitShapeAttrs.drawVerticals = orbit.extrude; //Draw verticals only when extruding.
 
-  const orbit = new WorldWind.Path(
-    [
-      new WorldWind.Position(40, -100, 400e3),
-      new WorldWind.Position(-40, 100, 400e3),
-      new WorldWind.Position(40, -100, 400e3),
-    ],
-    orbitShapeAttrs
-  )
-  orbit.pathType = WorldWind.GREAT_CIRCLE
-  orbit.numSubSegments = 100
+  fetch(TLE_URL).then(response => response.json())
+  .then(({ line1, line2 }) => {
+    const tle = `${line1}\n${line2}`
 
-  orbit.altitudeMode = WorldWind.ABSOLUTE
-  // orbit.followTerrain = true;
-  orbit.extrude = true; // Make it a curtain.
-  orbit.useSurfaceShapeFor2D = true; // Use a surface shape in 2D mode.
-  
-  // // Create and assign the path's highlight attributes.
-  // const highlightAttributes = new WorldWind.ShapeAttributes(orbitShapeAttrs);
-  // highlightAttributes.outlineColor = WorldWind.Color.RED;
-  // highlightAttributes.interiorColor = new WorldWind.Color(1, 1, 1, 0.5);
-  // orbit.highlightAttributes = highlightAttributes;
+    tlejs.getGroundTracks({
+      tle,
+      stepMS: 60e3,
+      isLngLatFormat: false, 
+    }).then(([ previous, current, next ]) => {
+      const orbit = new WorldWind.Path(
+        [...previous, ...current, ...next].map(([ lat, lon ]) => new WorldWind.Position(lat, lon, ISS_ALTITUDE)),
+        orbitShapeAttrs
+      )
+      orbit.pathType = WorldWind.GREAT_CIRCLE
+      orbit.numSubSegments = 100
+    
+      orbit.altitudeMode = WorldWind.ABSOLUTE
+      // orbit.followTerrain = true;
+      orbit.extrude = true; // Make it a curtain.
+      orbit.useSurfaceShapeFor2D = true; // Use a surface shape in 2D mode.
+      
+      // // Create and assign the path's highlight attributes.
+      // const highlightAttributes = new WorldWind.ShapeAttributes(orbitShapeAttrs);
+      // highlightAttributes.outlineColor = WorldWind.Color.RED;
+      // highlightAttributes.interiorColor = new WorldWind.Color(1, 1, 1, 0.5);
+      // orbit.highlightAttributes = highlightAttributes;
+    
+      // Add the path to a layer and the layer to the WorldWindow's layer list.
+      orbitLayer.addRenderable(orbit)
+    
+      globe.addLayer(orbitLayer, {
+        category: "data",
+        enabled: true
+      });
+    })
+  })
 
-  // Add the path to a layer and the layer to the WorldWindow's layer list.
-  orbitLayer.addRenderable(orbit)
-
-  globe.addLayer(orbitLayer, {
-    category: "data",
-    enabled: true
-  });
 
   // -----------------------------------------------
   // Initialize Knockout view models and html views
