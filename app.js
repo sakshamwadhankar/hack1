@@ -125,23 +125,28 @@ $(document).ready(function () {
     category: "debug",
     enabled: false
   });
-  var layer = getIssLayer();
-  globe.addLayer(layer);
 
   const orbitLayer = new WorldWind.RenderableLayer("Orbit")
+  globe.addLayer(orbitLayer, {
+    category: "data",
+    enabled: true
+  });
   
   // Create and assign the path's attributes.
   const orbitShapeAttrs = new WorldWind.ShapeAttributes(null);
   // orbitShapeAttrs.outlineColor = WorldWind.Color.BLUE;
-  // orbitShapeAttrs.interiorColor = new WorldWind.Color(0, 1, 1, 0.5);
+  orbitShapeAttrs.interiorColor = new WorldWind.Color(1, 1, 1, 0.5);
   // orbitShapeAttrs.drawVerticals = orbit.extrude; //Draw verticals only when extruding.
 
   fetch(TLE_URL).then(response => response.json())
-  .then(({ line1, line2 }) => {
-    const tle = `${line1}\n${line2}`
+  .then((tleData) => {
+    console.log(tleData)
+    const { line1, line2 } = tleData
+    const tleStr = `${line1}\n${line2}`
+    console.log(tleStr)
 
     tlejs.getGroundTracks({
-      tle,
+      tle: tleStr,
       stepMS: 60e3,
       isLngLatFormat: false, 
     }).then(([ previous, current, next ]) => {
@@ -165,11 +170,8 @@ $(document).ready(function () {
     
       // Add the path to a layer and the layer to the WorldWindow's layer list.
       orbitLayer.addRenderable(orbit)
-    
-      globe.addLayer(orbitLayer, {
-        category: "data",
-        enabled: true
-      });
+      let { lat, lng } = tlejs.getLatLngObj(tleStr)
+      addISSModel(orbitLayer, lat, lng, ISS_ALTITUDE)
     })
   })
 
@@ -207,14 +209,11 @@ $(document).ready(function () {
   });
 });
 
-const getIssLayer = (x = 20, y = 20) => {
-  var placemarkLayer = new WorldWind.RenderableLayer("Test", false);
-    
+const addISSModel = (layer, lat, lon, alt) => {
   var placeMarkAttributes = new WorldWind.PlacemarkAttributes(null);
   placeMarkAttributes.imageSource = 'images/ISS.png'
   placeMarkAttributes.imageScale = 2;
   
-  var placemark = new WorldWind.Placemark(new WorldWind.Position(x, y, 2000000), true, placeMarkAttributes);
-  placemarkLayer.addRenderable(placemark);
-  return placemarkLayer;
+  var placemark = new WorldWind.Placemark(new WorldWind.Position(lat, lon, alt), true, placeMarkAttributes);
+  layer.addRenderable(placemark);
 }
