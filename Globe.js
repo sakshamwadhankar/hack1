@@ -212,12 +212,30 @@ export default class Globe {
         }
       });
     }
-    // Toggle the selected layer's visibility
-    layer.enabled = !layer.enabled;
+    if (layer.displayName !== 'test') {
+      // Toggle the selected layer's visibility
+      layer.enabled = !layer.enabled;
+    } else {
+      let lat = layer.renderables[0].position.latitude + 1;
+      let long = layer.renderables[0].position.longitude;
+      layer.renderables[0].position = new WorldWind.Position(long, lat, 2000000)
+      console.log(layer.renderables[0].position);
+      layer.refresh();
+    }
+    
     // Trigger a redraw so the globe shows the new layer state ASAP
     this.wwd.redraw();
     // Signal a change in the category
     this.updateCategoryTimestamp(layer.category);
+  }
+
+  addPlaceMarker(layer) {
+    var placeMarkAttributes = new WorldWind.PlacemarkAttributes(null);
+    placeMarkAttributes.imageSource = 'images/ISS.png'
+    placeMarkAttributes.imageScale = 2;
+    
+    var placemark = new WorldWind.Placemark(new WorldWind.Position(25, 25, 2000000), true, placeMarkAttributes);
+    layer.addRenderable(placemark);
   }
 
   /**
@@ -250,6 +268,10 @@ export default class Globe {
     let layers = this.wwd.layers.filter(layer => layer.displayName === name);
     return layers.length > 0 ? layers[0] : null;
   }
+
+  // updateLayer(layer, options) {
+  //   console.log()
+  // }
 
   /**
    * Moves the WorldWindow camera to the center coordinates of the layer, and then zooms in (or out)
