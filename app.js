@@ -100,7 +100,8 @@ $(document).ready(function () {
     category: "setting"
   });
   globe.addLayer(new WorldWind.ViewControlsLayer(globe.wwd), {
-    category: "setting"
+    category: "setting",
+    enabled: false
   });
   globe.addLayer(new WorldWind.CompassLayer(), {
     category: "setting",
@@ -108,17 +109,55 @@ $(document).ready(function () {
   });
   globe.addLayer(new WorldWind.StarFieldLayer(), {
     category: "setting",
-    enabled: false,
+    enabled: true,
     displayName: "Stars"
   });
   globe.addLayer(new WorldWind.AtmosphereLayer(), {
     category: "setting",
-    enabled: false,
-    time: null // new Date() // activates day/night mode
+    enabled: true,
+    time: new Date()//'2022-10-01T06:00Z') // activates day/night mode
   });
   globe.addLayer(new WorldWind.ShowTessellationLayer(), {
     category: "debug",
     enabled: false
+  });
+
+  const orbitLayer = new WorldWind.RenderableLayer("Orbit")
+  
+  // Create and assign the path's attributes.
+  const orbitShapeAttrs = new WorldWind.ShapeAttributes(null);
+  // orbitShapeAttrs.outlineColor = WorldWind.Color.BLUE;
+  // orbitShapeAttrs.interiorColor = new WorldWind.Color(0, 1, 1, 0.5);
+  // orbitShapeAttrs.drawVerticals = orbit.extrude; //Draw verticals only when extruding.
+
+  const orbit = new WorldWind.Path(
+    [
+      new WorldWind.Position(40, -100, 400e3),
+      new WorldWind.Position(-40, 100, 400e3),
+      new WorldWind.Position(40, -100, 400e3),
+    ],
+    orbitShapeAttrs
+  )
+  orbit.pathType = WorldWind.GREAT_CIRCLE
+  orbit.numSubSegments = 100
+
+  orbit.altitudeMode = WorldWind.ABSOLUTE
+  // orbit.followTerrain = true;
+  orbit.extrude = true; // Make it a curtain.
+  orbit.useSurfaceShapeFor2D = true; // Use a surface shape in 2D mode.
+  
+  // // Create and assign the path's highlight attributes.
+  // const highlightAttributes = new WorldWind.ShapeAttributes(orbitShapeAttrs);
+  // highlightAttributes.outlineColor = WorldWind.Color.RED;
+  // highlightAttributes.interiorColor = new WorldWind.Color(1, 1, 1, 0.5);
+  // orbit.highlightAttributes = highlightAttributes;
+
+  // Add the path to a layer and the layer to the WorldWindow's layer list.
+  orbitLayer.addRenderable(orbit)
+
+  globe.addLayer(orbitLayer, {
+    category: "data",
+    enabled: true
   });
 
   // -----------------------------------------------
