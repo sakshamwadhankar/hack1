@@ -32,7 +32,7 @@ import SearchPreviewViewModel from './SearchPreviewViewModel.js';
 
 /* global $, ko, WorldWind, tlejs */
 
-const TLE_URL = "https://tle.ivanstanojevic.me/api/tle/25544"
+const TLE_URL = "https://tle.ivanstanojevic.me/api/tle/49044"
 const ISS_ALTITUDE = 400e3 // m
 
 
