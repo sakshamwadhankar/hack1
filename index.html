@@ -8,11 +8,11 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <meta name="description" content="WorldWindJS Web App Template">
-        <meta name="author" content="Bruce Schubert">
+        <meta name="description" content="International Space Station tracker">
+        <!-- <meta name="author" content="Bruce Schubert"> -->
         <link rel="icon" href="images/world.png">
 
-        <title>WorldWindJS Web App Template</title>
+        <title>ISS Tracker</title>
 
         <!-- Bootstrap 4.0 CSS compiled and minified -->
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
@@ -32,7 +32,7 @@
             <!--Branding icon and text-->
             <a class="navbar-brand" href="https://github.com/worldwindearth/worldwind-web-app">
                 <img src="images/world.png" width="32" height="36" class="d-inline-block align-top" alt="">
-                WorldWindJS
+                ISS Tracker
             </a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#main-menu" aria-controls="main-menu" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -49,12 +49,12 @@
                         </a>
                     </li>
                     <!--Markers-->
-                    <li class="nav-item">
+                    <!-- <li class="nav-item">
                         <a class="nav-link" data-toggle="collapse" href="#markers" role="button">
                             <span class="fas fa-map-marker-alt" aria-hidden="true"></span>
                             <span class="d-md-none d-lg-inline" aria-hidden="true">Markers</span>
                         </a>
-                    </li>
+                    </li> -->
                     <!--Settings-->
                     <li class="nav-item">
                         <a class="nav-link" data-toggle="collapse" href="#settings" role="button">
@@ -64,13 +64,13 @@
                     </li>
                 </ul>
                 <!--Search Box-->
-                <form id="search" class="form-inline">
+                <!-- <form id="search" class="form-inline">
                     <input id="searchText" class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search"
                            data-bind="value: searchText, valueUpdate: 'keyup'"/>
                     <button id="searchButton" class="btn btn-outline-success" data-bind="click: $root.performSearch">
                         <span class="fas fa-search" aria-hidden="true"></span>
                     </button>
-                </form>
+                </form> -->
             </div>
         </nav>
 
@@ -82,40 +82,13 @@
             <div id="globe" class="globe p-0">
                 <!--.d-block ensures the size is correct (prevents a scrollbar from appearing)-->
                 <canvas id="globe-canvas" class="d-block"
-                        style="width: 100%; height: 100%; 
-                        background-color: rgb(36,74,101);">
+                        style="width: 100%; height: 100%;">
                     Try Chrome or FireFox.
                 </canvas>            
             </div>
             <!--WorldWindow Tools-->
-            <div id="tools" class="globe-overlay noninteractive">
-                <!-- Add Marker button and palette -->
-                <div class="btn-group interactive p-3">
-                    <button type="button" 
-                            class="btn btn-primary btn-sm globe-button p-0"
-                            data-bind="click: $root.armDropMarker">
-                        <span class="fas fa-plus" aria-hidden="true"></span>
-                        <img width="30px" height="28px;" 
-                             data-bind="attr:{src: $root.selectedMarkerImage}"/>
-                    </button>
-                    <button type="button" id="marker-palette" 
-                            class="btn btn-primary btn-sm globe-button dropdown-toggle" 
-                            data-toggle="dropdown" 
-                            aria-haspopup="true" aria-expanded="false">
-                        <span class="caret"></span>
-                        <span class="sr-only">Markers Dropdown</span>
-                    </button>
-                    <!-- Bind the list to the 'markerPalette' observableArray -->
-                    <ul id="marker-palette" 
-                        class="dropdown-menu globe-dropdown" 
-                        style="left: initial; min-width: 30px"
-                        data-bind="foreach: markerPalette">
-                        <li data-bind="click: $root.selectedMarkerImage">
-                            <a><img width="30px" height="30px;" data-bind="attr:{src: $data}, click: $root.armDropMarker"/></a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
+            <!-- <div id="tools" class="globe-overlay noninteractive">
+            </div> -->
             <!--WorldWindow Panels-->
             <div class="globe-overlay noninteractive">
                 <div class="card-columns">
@@ -138,7 +111,7 @@
                         </div>
                     </div>
                     <!--Markers-->
-                    <div id="markers" class="collapse">
+                    <!-- <div id="markers" class="collapse">
                         <div class="card globe-card interactive">
                             <div class="card-header">
                                 <h5 class="card-title">
@@ -149,25 +122,25 @@
                                     </button></h5>
                             </div>                
                             <div class="card-body">
-                                    <!-- Bind the list to the 'markers' observableArray -->
+                                    <!-- Bind the list to the 'markers' observableArray --
                                     <ul id="markers-list" class="list-group" data-bind="foreach: $root.markers">
                                         <li class="list-group-item list-group-item-action p-0">
                                             <div class="btn-group" role="group">
-                                                <!-- Goto Button -->
+                                                <!-- Goto Button --
                                                 <button type="button" class="btn btn-light" data-bind="click: $root.gotoMarker">
                                                     <span><img width="16px" height="16px" data-bind="attr:{src: $data.attributes.imageSource}" />  </span>
                                                     <span data-bind="text: $data.label"></span>
                                                 </button>
-                                                <!-- Edit Button -->
+                                                <!-- Edit Button --
                                                 <button type="button" class="btn btn-light fas fa-edit" data-bind="click: $root.editMarker"></button>
-                                                <!-- Delete Button -->
+                                                <!-- Delete Button --
                                                 <button type="button" class="btn btn-light fas fa-trash" data-bind="click: $root.removeMarker"></button>
                                             </div>
                                         </li>
                                     </ul>
                             </div>                    
                         </div>
-                    </div>
+                    </div> -->
                     <!--Settings-->
                     <div id="settings" class="collapse">
                         <div class="card globe-card interactive">
@@ -196,7 +169,7 @@
                 </script>   
             </div>
             <!--Search Preview Dialog-->
-            <div id="preview" class="hidden">
+            <!-- <div id="preview" class="hidden">
                 <div id="previewDialog" class="modal" tabindex="-1" role="dialog" >
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
@@ -245,7 +218,7 @@
                         </div>
                     </div>
                 </div>                    
-            </div>
+            </div> -->
 
         </main><!-- /.container-fluid -->
 

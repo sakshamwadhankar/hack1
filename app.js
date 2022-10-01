@@ -27,7 +27,7 @@ import LayersViewModel from './LayersViewModel.js';
 import SettingsViewModel from './SettingsViewModel.js';
 import ToolsViewModel from './ToolsViewModel.js';
 import MarkersViewModel from './MarkersViewModel.js';
-import SearchViewModel from './SearchViewModel.js';
+// import SearchViewModel from './SearchViewModel.js';
 import SearchPreviewViewModel from './SearchPreviewViewModel.js';
 
 /* global $, ko, WorldWind, tlejs */
@@ -95,11 +95,11 @@ $(document).ready(function () {
     enabled: false,
     opacity: 0.80
   });
-  globe.addLayer(new WorldWind.RenderableLayer("Markers"), {
-    category: "data",
-    displayName: "Markers",
-    enabled: true
-  });
+  // globe.addLayer(new WorldWind.RenderableLayer("Markers"), {
+  //   category: "data",
+  //   displayName: "Markers",
+  //   enabled: true
+  // });
   globe.addLayer(new WorldWind.CoordinatesDisplayLayer(globe.wwd), {
     category: "setting"
   });
@@ -121,10 +121,10 @@ $(document).ready(function () {
     enabled: true,
     time: new Date()//'2022-10-01T06:00Z') // activates day/night mode
   });
-  globe.addLayer(new WorldWind.ShowTessellationLayer(), {
-    category: "debug",
-    enabled: false
-  });
+  // globe.addLayer(new WorldWind.ShowTessellationLayer(), {
+  //   category: "debug",
+  //   enabled: false
+  // });
 
   const orbitLayer = new WorldWind.RenderableLayer("Orbit")
   globe.addLayer(orbitLayer, {
@@ -143,7 +143,6 @@ $(document).ready(function () {
     console.log(tleData)
     const { line1, line2 } = tleData
     const tleStr = `${line1}\n${line2}`
-    console.log(tleStr)
 
     tlejs.getGroundTracks({
       tle: tleStr,
@@ -185,14 +184,14 @@ $(document).ready(function () {
   let markers = new MarkersViewModel(globe);
   let tools = new ToolsViewModel(globe, markers);
   let preview = new SearchPreviewViewModel(globe, MAPQUEST_API_KEY);
-  let search = new SearchViewModel(globe, preview.previewResults, MAPQUEST_API_KEY);
+  // let search = new SearchViewModel(globe, preview.previewResults, MAPQUEST_API_KEY);
   
   // Activate the Knockout bindings between our view models and the html
   ko.applyBindings(layers, document.getElementById('layers'));
   ko.applyBindings(settings, document.getElementById('settings'));
   ko.applyBindings(markers, document.getElementById('markers'));
   ko.applyBindings(tools, document.getElementById('tools'));
-  ko.applyBindings(search, document.getElementById('search'));
+  // ko.applyBindings(search, document.getElementById('search'));
   ko.applyBindings(preview, document.getElementById('preview'));
 
   // ---------------------------------------------------------
