@@ -120,6 +120,8 @@ $(document).ready(function () {
     category: "debug",
     enabled: false
   });
+  var layer = getIssLayer();
+  globe.addLayer(layer);
 
   // -----------------------------------------------
   // Initialize Knockout view models and html views
@@ -153,3 +155,15 @@ $(document).ready(function () {
     $(this).closest('.collapse').collapse('hide');
   });
 });
+
+const getIssLayer = (x = 20, y = 20) => {
+  var placemarkLayer = new WorldWind.RenderableLayer("Test", false);
+    
+  var placeMarkAttributes = new WorldWind.PlacemarkAttributes(null);
+  placeMarkAttributes.imageSource = 'images/ISS.png'
+  placeMarkAttributes.imageScale = 2;
+  
+  var placemark = new WorldWind.Placemark(new WorldWind.Position(x, y, 2000000), true, placeMarkAttributes);
+  placemarkLayer.addRenderable(placemark);
+  return placemarkLayer;
+}
