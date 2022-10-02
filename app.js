@@ -25,8 +25,8 @@
 import Globe from './Globe.js';
 import LayersViewModel from './LayersViewModel.js';
 import SettingsViewModel from './SettingsViewModel.js';
-import ToolsViewModel from './ToolsViewModel.js';
-import MarkersViewModel from './MarkersViewModel.js';
+// import ToolsViewModel from './ToolsViewModel.js';
+// import MarkersViewModel from './MarkersViewModel.js';
 // import SearchViewModel from './SearchViewModel.js';
 import SearchPreviewViewModel from './SearchPreviewViewModel.js';
 
@@ -188,16 +188,16 @@ $(document).ready(function () {
 
   let layers = new LayersViewModel(globe);
   let settings = new SettingsViewModel(globe);
-  let markers = new MarkersViewModel(globe);
-  let tools = new ToolsViewModel(globe, markers);
+  // let markers = new MarkersViewModel(globe);
+  // let tools = new ToolsViewModel(globe, markers);
   let preview = new SearchPreviewViewModel(globe, MAPQUEST_API_KEY);
   // let search = new SearchViewModel(globe, preview.previewResults, MAPQUEST_API_KEY);
   
   // Activate the Knockout bindings between our view models and the html
   ko.applyBindings(layers, document.getElementById('layers'));
   ko.applyBindings(settings, document.getElementById('settings'));
-  ko.applyBindings(markers, document.getElementById('markers'));
-  ko.applyBindings(tools, document.getElementById('tools'));
+  // ko.applyBindings(markers, document.getElementById('markers'));
+  // ko.applyBindings(tools, document.getElementById('tools'));
   // ko.applyBindings(search, document.getElementById('search'));
   ko.applyBindings(preview, document.getElementById('preview'));
 
