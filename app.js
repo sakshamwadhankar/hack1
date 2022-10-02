@@ -21,7 +21,6 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-
 import Globe from './Globe.js';
 import LayersViewModel from './LayersViewModel.js';
 import SettingsViewModel from './SettingsViewModel.js';
@@ -54,14 +53,14 @@ $(document).ready(function () {
   // Get your own key at https://developer.mapquest.com/
   // Without your own key you will be using a limited WorldWind developer's key.
   const MAPQUEST_API_KEY = "";
-
+  
   // ---------------------
   // Initialize the globe
   // ----------------------
 
   // Create the primary globe
   let globe = new Globe("globe-canvas");
-  
+    
   // Add layers ordered by drawing order: first to last
   globe.addLayer(new WorldWind.BMNGLayer(), {
     category: "base"
@@ -131,11 +130,16 @@ $(document).ready(function () {
     category: "data",
     enabled: true
   });
+  const ISSLayer = new WorldWind.RenderableLayer("ISS");
+  globe.addLayer(ISSLayer, {
+    category: "data",
+    enabled: true
+  });
   
   // Create and assign the path's attributes.
   const orbitShapeAttrs = new WorldWind.ShapeAttributes(null);
   // orbitShapeAttrs.outlineColor = WorldWind.Color.BLUE;
-  orbitShapeAttrs.interiorColor = new WorldWind.Color(1, 1, 1, 0.5);
+  orbitShapeAttrs.interiorColor = new WorldWind.Color(1, 1, 1, 0.2);
   // orbitShapeAttrs.drawVerticals = orbit.extrude; //Draw verticals only when extruding.
 
   fetch(TLE_URL).then(response => response.json())
@@ -171,18 +175,18 @@ $(document).ready(function () {
       orbitLayer.addRenderable(orbit)
       
       let { lat, lng } = tlejs.getLatLngObj(tleStr)
-      const ISSPlacemark = addISSModel(orbitLayer, lat, lng, ISS_ALTITUDE)
+      const ISSPlacemark = addISSModel(ISSLayer, lat, lng, ISS_ALTITUDE)
       globe.wwd.goTo(new WorldWind.Location(lat, lng));
 
       setInterval(() => {
         let { lat, lng } = tlejs.getLatLngObj(tleStr)
         ISSPlacemark.position = new WorldWind.Position(lat, lng, ISS_ALTITUDE)
-        globe.refreshLayer(orbitLayer);
+        globe.refreshLayer(ISSLayer);
       }, 1e3);
     })
   })
-
-
+  
+  
   // -----------------------------------------------
   // Initialize Knockout view models and html views
   // -----------------------------------------------
@@ -201,7 +205,7 @@ $(document).ready(function () {
   // ko.applyBindings(tools, document.getElementById('tools'));
   // ko.applyBindings(search, document.getElementById('search'));
   ko.applyBindings(preview, document.getElementById('preview'));
-
+  
   // ---------------------------------------------------------
   // Add UI event handlers to create a better user experience
   // ---------------------------------------------------------
@@ -217,12 +221,12 @@ $(document).ready(function () {
 });
 
 const addISSModel = (layer, lat, lon, alt) => {
-  var placeMarkAttributes = new WorldWind.PlacemarkAttributes(null);
-  placeMarkAttributes.imageSource = 'images/ISS.png'
-  placeMarkAttributes.imageScale = 2;
+  var position = new WorldWind.Position(lat, lon, alt);
+  var colladaLoader = new WorldWind.ColladaLoader(position, { dirPath: 'images/' });
   
-  var placemark = new WorldWind.Placemark(new WorldWind.Position(lat, lon, alt), true, placeMarkAttributes);
-  placemark.displayName = "ISS"
-  layer.addRenderable(placemark);
-  return placemark
+  colladaLoader.load("ISS.dae", function (colladaModel) {
+    colladaModel.scale = 2000000;
+    layer.addRenderable(colladaModel)
+  });
+  return colladaLoader
 }
