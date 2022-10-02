@@ -1,31 +1,15 @@
-# WorldWindJS Web App Template
+# ISS Tracker
 
-A template for creating a WorldWindJS web app with Bootstrap and Knockout. Check out the [demo](https://worldwindearth.github.io/worldwind-web-app).
+ISS Tracker is a web app for visualizing and tracking the International Space Station (ISS) in 3D. It was built for the NASA Space Apps Challenge 2022.
 
-This project template lets you quickly build a [WorldWind](https://worldwind.arc.nasa.gov/web/) 
-web app using the community supported [WorldWindJS](https://worldwindearth.github.io/worldwindjs) library with 
-[Bootstrap](https://getbootstrap.com/docs/4.0/getting-started/introduction/) and 
-[KnockoutJS](http://knockoutjs.com/index.html). You will build a feature-rich, responsive, 
-customizable web app ready to be deployed to your site. This template includes:
+View it here: https://binaryfunt.github.io/iss-tracker/
 
-- Initializing WorldWind with 3D globes and/or 2D maps
-- Configuring and managing layers and settings
-- Place name searches and geocoding
-- Creating placemarks (markers)
-- Going to locations
-- Multi-globe support
+![Screenshot of the web app](/images/screenshot.png)
 
+## Acknowledgements
 
-## Quick Start
+We built this as a fork of [WorldWindEarth/worldwind-web-app](https://github.com/WorldWindEarth/worldwind-web-app), itself built upon the [NASA WorldWind](https://worldwind.arc.nasa.gov/) virtual globe API.
 
-Do you want to start developing right away? 
+The ISS model was obtained from [NASA 3D Resources](https://nasa3d.arc.nasa.gov/detail/iss-6628) and converted to a WorldWind-compatible format.
 
-- Fork/clone this project or ([download the source](https://github.com/worldwindearth/worldwind-web-app/archive/master.zip))
-- Enable GitHub Pages within your repo's settings and set it to publish from the master branch
-- View your project on the web at https://\<user-name\>.github.io/\<repo-name\>, for example: [https://worldwindearth.github.io/worldwind-web-app](https://worldwindearth.github.io/worldwind-web-app) 
-
-View the tutorial "[How to Build a WorldWind Web App](https://emxsys.github.io/worldwind-web-app-tutorial/)"
-
-Are you interested in building a WorldWind web app using [React](https://reactjs.org)? 
-Check out the [WorldWind React](https://github.com/emxsys/worldwind-react-app) project.
-
+Two-line element (TLE) data for the ISS is fetched from https://tle.ivanstanojevic.me/ and plugged in to [tle.js](https://github.com/davidcalhoun/tle.js/), which uses [satellite.js](https://github.com/shashwatak/satellite-js) to propagate the orbit and calculate the realtime location of the ISS.
