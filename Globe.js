@@ -212,12 +212,19 @@ export default class Globe {
         }
       });
     }
+    
     // Toggle the selected layer's visibility
     layer.enabled = !layer.enabled;
+    
     // Trigger a redraw so the globe shows the new layer state ASAP
     this.wwd.redraw();
     // Signal a change in the category
     this.updateCategoryTimestamp(layer.category);
+  }
+
+  refreshLayer(layer) {
+    layer.refresh();
+    this.wwd.redraw();
   }
 
   /**
@@ -250,6 +257,10 @@ export default class Globe {
     let layers = this.wwd.layers.filter(layer => layer.displayName === name);
     return layers.length > 0 ? layers[0] : null;
   }
+
+  // updateLayer(layer, options) {
+  //   console.log()
+  // }
 
   /**
    * Moves the WorldWindow camera to the center coordinates of the layer, and then zooms in (or out)

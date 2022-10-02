@@ -169,8 +169,15 @@ $(document).ready(function () {
     
       // Add the path to a layer and the layer to the WorldWindow's layer list.
       orbitLayer.addRenderable(orbit)
+      
       let { lat, lng } = tlejs.getLatLngObj(tleStr)
-      addISSModel(orbitLayer, lat, lng, ISS_ALTITUDE)
+      const ISSPlacemark = addISSModel(orbitLayer, lat, lng, ISS_ALTITUDE)
+
+      setInterval(() => {
+        let { lat, lng } = tlejs.getLatLngObj(tleStr)
+        ISSPlacemark.position = new WorldWind.Position(lat, lng, ISS_ALTITUDE)
+        globe.refreshLayer(orbitLayer);
+      }, 1e3);
     })
   })
 
@@ -197,7 +204,7 @@ $(document).ready(function () {
   // ---------------------------------------------------------
   // Add UI event handlers to create a better user experience
   // ---------------------------------------------------------
-  
+
   // Auto-collapse the main menu when its button items are clicked
   $('.navbar-collapse a[role="button"]').click(function () {
     $('.navbar-collapse').collapse('hide');
@@ -214,5 +221,7 @@ const addISSModel = (layer, lat, lon, alt) => {
   placeMarkAttributes.imageScale = 2;
   
   var placemark = new WorldWind.Placemark(new WorldWind.Position(lat, lon, alt), true, placeMarkAttributes);
+  placemark.displayName = "ISS"
   layer.addRenderable(placemark);
+  return placemark
 }
