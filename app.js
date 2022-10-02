@@ -121,12 +121,7 @@ $(document).ready(function () {
     enabled: false
   });
 
-  var placemarkLayer = new WorldWind.RenderableLayer("renderable layer", false);  
-  var placemarkattr = new WorldWind.PlacemarkAttributes(null)
-  placemarkattr.imageSource = "images/ISS.png"
-  placemarkattr.imageScale = 1;
-  var placemark = new WorldWind.Placemark(new WorldWind.Position(20, 30, 200000),true,placemarkattr);
-  //placemarkLayer.addRenderable(placemark);
+  
   
   var modelLayer = new WorldWind.RenderableLayer("ISS");
   
