@@ -120,7 +120,8 @@ $(document).ready(function () {
     category: "debug",
     enabled: false
   });
-  var layer = getIssLayer();
+
+  var layer = setUpIssLayer();
   globe.addLayer(layer);
 
   // -----------------------------------------------
@@ -145,7 +146,17 @@ $(document).ready(function () {
   // ---------------------------------------------------------
   // Add UI event handlers to create a better user experience
   // ---------------------------------------------------------
-  
+  setInterval(() => {
+    fetch('http://api.open-notify.org/iss-now.json').then(response => response.json())
+    .then((issLocationData) => {
+      console.log(issLocationData)
+      let lat = parseFloat(issLocationData.iss_position.latitude);
+      let lon = parseFloat(issLocationData.iss_position.longitude);
+      globe.updatePlaceMarkerPosition(layer, lat, lon);
+    });
+    
+  }, 5000);
+
   // Auto-collapse the main menu when its button items are clicked
   $('.navbar-collapse a[role="button"]').click(function () {
     $('.navbar-collapse').collapse('hide');
@@ -156,14 +167,13 @@ $(document).ready(function () {
   });
 });
 
-const getIssLayer = (x = 20, y = 20) => {
-  var placemarkLayer = new WorldWind.RenderableLayer("Test", false);
-    
+const setUpIssLayer = (lat = 97.5980, lon = -47.3998) => {
+  var placemarkLayer = new WorldWind.RenderableLayer('International Space Station', false);
   var placeMarkAttributes = new WorldWind.PlacemarkAttributes(null);
   placeMarkAttributes.imageSource = 'images/ISS.png'
   placeMarkAttributes.imageScale = 2;
   
-  var placemark = new WorldWind.Placemark(new WorldWind.Position(x, y, 2000000), true, placeMarkAttributes);
+  var placemark = new WorldWind.Placemark(new WorldWind.Position(lat, lon, 2000000), true, placeMarkAttributes);
   placemarkLayer.addRenderable(placemark);
   return placemarkLayer;
 }

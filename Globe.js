@@ -212,16 +212,9 @@ export default class Globe {
         }
       });
     }
-    if (layer.displayName !== 'test') {
-      // Toggle the selected layer's visibility
-      layer.enabled = !layer.enabled;
-    } else {
-      let lat = layer.renderables[0].position.latitude + 1;
-      let long = layer.renderables[0].position.longitude;
-      layer.renderables[0].position = new WorldWind.Position(long, lat, 2000000)
-      console.log(layer.renderables[0].position);
-      layer.refresh();
-    }
+    
+    // Toggle the selected layer's visibility
+    layer.enabled = !layer.enabled;
     
     // Trigger a redraw so the globe shows the new layer state ASAP
     this.wwd.redraw();
@@ -229,13 +222,10 @@ export default class Globe {
     this.updateCategoryTimestamp(layer.category);
   }
 
-  addPlaceMarker(layer) {
-    var placeMarkAttributes = new WorldWind.PlacemarkAttributes(null);
-    placeMarkAttributes.imageSource = 'images/ISS.png'
-    placeMarkAttributes.imageScale = 2;
-    
-    var placemark = new WorldWind.Placemark(new WorldWind.Position(25, 25, 2000000), true, placeMarkAttributes);
-    layer.addRenderable(placemark);
+  updatePlaceMarkerPosition(layer, lat, lon) {
+    layer.renderables[0].position = new WorldWind.Position(lat, lon, 2000000)
+    layer.refresh();
+    this.wwd.redraw();
   }
 
   /**
