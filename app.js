@@ -50,14 +50,14 @@ $(document).ready(function () {
   // Get your own key at https://developer.mapquest.com/
   // Without your own key you will be using a limited WorldWind developer's key.
   const MAPQUEST_API_KEY = "";
-
+  
   // ---------------------
   // Initialize the globe
   // ----------------------
 
   // Create the primary globe
   let globe = new Globe("globe-canvas");
-  
+    
   // Add layers ordered by drawing order: first to last
   globe.addLayer(new WorldWind.BMNGLayer(), {
     category: "base"
@@ -121,6 +121,31 @@ $(document).ready(function () {
     enabled: false
   });
 
+  var placemarkLayer = new WorldWind.RenderableLayer("renderable layer", false);  
+  var placemarkattr = new WorldWind.PlacemarkAttributes(null)
+  placemarkattr.imageSource = "images/ISS.png"
+  placemarkattr.imageScale = 1;
+  var placemark = new WorldWind.Placemark(new WorldWind.Position(20, 30, 200000),true,placemarkattr);
+  //placemarkLayer.addRenderable(placemark);
+  
+  var modelLayer = new WorldWind.RenderableLayer("ISS");
+  
+  globe.addLayer(modelLayer);
+  
+  var position = new WorldWind.Position(110, 100, 800000.0);
+  
+  var config = {dirPath: 'images/'};
+  
+  var colladaLoader = new WorldWind.ColladaLoader(position, config);
+  
+  colladaLoader.load("ISS.dae", function (colladaModel) {
+    colladaModel.scale = 3000000;
+    modelLayer.addRenderable(colladaModel);});
+  
+  
+  
+  globe.addLayer(placemarkLayer)
+  
   // -----------------------------------------------
   // Initialize Knockout view models and html views
   // -----------------------------------------------
@@ -139,7 +164,7 @@ $(document).ready(function () {
   ko.applyBindings(tools, document.getElementById('tools'));
   ko.applyBindings(search, document.getElementById('search'));
   ko.applyBindings(preview, document.getElementById('preview'));
-
+  
   // ---------------------------------------------------------
   // Add UI event handlers to create a better user experience
   // ---------------------------------------------------------
