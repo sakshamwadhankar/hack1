@@ -43,6 +43,9 @@
                         </a>
                     </li>
                     <li class="nav-item">
+                        <button id="btn-predict" class="btn btn-primary">Predict</button>
+                    </li>
+                    <li class="nav-item">
                         <p id="demo"></p>
                     </li>
                 </ul>
@@ -156,6 +159,8 @@
 
         </main>
 
+        <div id="predict-modal" class="predict-modal" hidden></div>
+
         <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>    
@@ -165,6 +170,7 @@
         <script src="https://unpkg.com/tle.js@^4"></script>
         <script type="module" src="app.js"></script>
         <script src="dataPanel.js"></script>
+        <script src="predict-modal.js"></script>
 
         <!-- Botpress Cloud Webchat: inject script + bot-specific loader -->
         <script src="https://cdn.botpress.cloud/webchat/v3.3/inject.js"></script>

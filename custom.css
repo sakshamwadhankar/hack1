@@ -168,3 +168,17 @@ body {
     transform: none;
   }
 }
+
+/* Predict modal base */
+.predict-modal{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:3000;display:grid;place-items:center;}
+.predict-card{width:min(720px,96vw);max-height:86vh;overflow:auto;background:#0b1220e6;color:#fff;border-radius:12px;box-shadow:0 10px 30px rgba(0,0,0,.4);backdrop-filter:blur(6px);padding:16px;}
+.predict-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;}
+.tabs{display:flex;gap:8px;margin:6px 0 12px;}
+.tabs button{background:#1f2a44;color:#cfe0ff;border:0;padding:8px 10px;border-radius:8px;cursor:pointer;}
+.tabs button.active{background:#29406d;color:#fff;}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.row{display:flex;justify-content:space-between;font-size:12px;margin:6px 0;}
+.label{color:#9ca3af;}
+.mono{font-family:ui-monospace,Menlo,Consolas,monospace;}
+.input,select{width:100%;background:#0b1220;color:#e5e7eb;border:1px solid #32415f;border-radius:8px;padding:8px;}
+.btn{background:#375bb6;color:#fff;border:0;padding:8px 12px;border-radius:8px;cursor:pointer;}
