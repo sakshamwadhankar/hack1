@@ -10,19 +10,31 @@ const ISS_ALTITUDE = 400e3 // m
 
 $(document).ready(function () {
   "use strict";
-  
+
   const BING_API_KEY = "";
   if (BING_API_KEY) {
     WorldWind.BingMapsKey = BING_API_KEY;
   } else {
     console.error("app.js: A Bing API key is required to use the Bing maps in production. Get your API key at https://www.bingmapsportal.com/");
   }
-  
+
+  // Ensure WorldWind configuration exists and has a valid baseUrl
+  if (!window.WorldWind) {
+    console.error("WorldWind library failed to load.");
+    return;
+  }
+  if (!WorldWind.configuration) {
+    WorldWind.configuration = {};
+  }
+  if (!WorldWind.configuration.baseUrl) {
+    WorldWind.configuration.baseUrl = "https://unpkg.com/worldwindjs@1.7.0/build/dist/";
+  }
+
   const MAPQUEST_API_KEY = "";
-  
+
 
   let globe = new Globe("globe-canvas");
-    
+
   globe.addLayer(new WorldWind.BMNGLayer(), {
     category: "base"
   });
@@ -30,24 +42,27 @@ $(document).ready(function () {
     category: "base",
     enabled: false
   });
-  globe.addLayer(new WorldWind.BingAerialLayer(), {
-    category: "base",
-    enabled: false
-  });
-  globe.addLayer(new WorldWind.BingAerialWithLabelsLayer(), {
-    category: "base",
-    enabled: false,
-    detailControl: 1.5
-  });
+  // Only register Bing layers when an API key is present to avoid errors
+  if (BING_API_KEY) {
+    globe.addLayer(new WorldWind.BingAerialLayer(), {
+      category: "base",
+      enabled: false
+    });
+    globe.addLayer(new WorldWind.BingAerialWithLabelsLayer(), {
+      category: "base",
+      enabled: false,
+      detailControl: 1.5
+    });
+    globe.addLayer(new WorldWind.BingRoadsLayer(), {
+      category: "overlay",
+      enabled: false,
+      detailControl: 1.5,
+      opacity: 0.80
+    });
+  }
   globe.addLayerFromWms("https://tiles.maps.eox.at/wms", "osm", {
     category: "base",
     enabled: false
-  });
-  globe.addLayer(new WorldWind.BingRoadsLayer(), {
-    category: "overlay",
-    enabled: false,
-    detailControl: 1.5,
-    opacity: 0.80
   });
   globe.addLayerFromWms("https://tiles.maps.eox.at/wms", "overlay", {
     category: "overlay",
@@ -87,7 +102,7 @@ $(document).ready(function () {
     category: "data",
     enabled: true
   });
-  
+
   const orbitShapeAttrs = new WorldWind.ShapeAttributes(null);
   orbitShapeAttrs.interiorColor = new WorldWind.Color(1, 1, 1, 0.2);
 
