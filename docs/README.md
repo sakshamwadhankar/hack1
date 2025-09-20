@@ -1,15 +1,6 @@
-# ISS Tracker
-
-ISS Tracker is a web app for visualizing and tracking the International Space Station (ISS) in 3D. It was built for the NASA Space Apps Challenge 2022.
-
-View it here: https://binaryfunt.github.io/iss-tracker/
-
-![Screenshot of the web app](/images/screenshot.png)
-
-## Acknowledgements
-
-We built this as a fork of [WorldWindEarth/worldwind-web-app](https://github.com/WorldWindEarth/worldwind-web-app), itself built upon the [NASA WorldWind](https://worldwind.arc.nasa.gov/) virtual globe API.
-
-The ISS model was obtained from [NASA 3D Resources](https://nasa3d.arc.nasa.gov/detail/iss-6628) and converted to a WorldWind-compatible format.
-
-Two-line element (TLE) data for the ISS is fetched from https://tle.ivanstanojevic.me/ and plugged in to [tle.js](https://github.com/davidcalhoun/tle.js/), which uses [satellite.js](https://github.com/shashwatak/satellite-js) to propagate the orbit and calculate the realtime location of the ISS.
+OrbitView 🛰️A real-time International Space Station (ISS) tracker with a stunning 3D visualization. This project was developed as a fun way to learn React, Three.js, and web development best practices.✨ FeaturesReal-time ISS Tracking: Fetches and displays the current position, velocity, and altitude of the International Space Station.Interactive 3D Globe: An immersive 3D visualization of Earth, complete with day and night textures. You can rotate, zoom, and pan to explore.Orbital Path Visualization: The app plots a real-time path of the ISS's recent orbit around the Earth.Live NASA Feed: Includes an embedded live feed from NASA, so you can see what the astronauts see.Modern UI: A clean, futuristic UI with a "frosted glass" effect using Tailwind CSS for a professional look.🚀 Getting StartedTo get a copy of this project up and running on your local machine, follow these simple steps.PrerequisitesYou will need the following software installed on your computer:Node.js (v16 or higher)npm (comes with Node.js)InstallationClone this repository to your local machine:git clone [https://github.com/sakshamwadhankar/hack1.git](https://github.com/sakshamwadhankar/hack1.git)
+Navigate into the project directory:cd hack1
+Install all the required dependencies:npm install
+Download the 3D model of the ISS and place it in the public folder.Open your terminal or command prompt.Navigate to the public folder: cd publicUse the curl command to download the raw .glb file:curl -L [https://raw.githubusercontent.com/nasa/ISS-Assets/master/gltf/ISS.glb](https://raw.githubusercontent.com/nasa/ISS-Assets/master/gltf/ISS.glb) -o iss-model.glb
+Go back to the root directory: cd ..Start the development server:npm run dev
+Your application will now be running at http://localhost:5173.🛠️ Built WithReact: A JavaScript library for building user interfaces.Vite: A fast build tool for modern web projects.Three.js: A JavaScript 3D library for rendering graphics.@react-three/fiber & @react-three/drei: React components that help to connect the Three.js library with your React application.Tailwind CSS: A utility-first CSS framework for styling.Axios: A promise-based HTTP client for making API requests.🔗 APIs Usedwheretheiss.at: Provides real-time position data for the ISS.Open Notify: Provides information on astronauts currently on the ISS.YouTube API: Embedded video feed for live views from the ISS.
