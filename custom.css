@@ -175,9 +175,25 @@ body {
   color: #fff;
   padding: 300px 36px 178px 36px;
   position: relative;
-  z-index: 2;
+}
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+.hero-video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.55);
 }
 .hero-container {
+  position: relative;
+  z-index: 2;
   max-width: 1520px;
   margin: 0 auto;
   display: flex;
@@ -205,19 +221,19 @@ body {
   gap: 2px;
 }
 .hero-kicker {
-  font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+  font-family: 'Orbitron', Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
   font-size: 24px;
-  font-weight: 500;
-  letter-spacing: -0.06em;
-  line-height: 1.38;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  line-height: 1.2;
   margin: 0;
 }
 .hero-title {
-  font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
-  font-weight: 600;
+  font-family: 'Orbitron', Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+  font-weight: 700;
   font-size: 216px;
-  line-height: 1.1;
-  letter-spacing: -0.04em;
+  line-height: 0.9;
+  letter-spacing: 0.02em;
   margin: 0;
   white-space: nowrap;
 }
@@ -271,7 +287,17 @@ body {
   padding: 76px 36px;
   position: relative;
 }
+.footer-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+.footer-video { width: 100%; height: 100%; object-fit: cover; }
+.footer-overlay { position: absolute; inset: 0; background: rgba(0,0,0,0.7); }
+
 .footer-container {
+  position: relative;
+  z-index: 2;
   max-width: 1520px;
   margin: 0 auto;
   display: flex;
