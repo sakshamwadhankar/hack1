@@ -169,6 +169,27 @@ body {
   }
 }
 
+/* Navbar aesthetic enhancements */
+.navbar-iss {
+  background: rgba(0,0,0,0.6) !important;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+.navbar-iss .navbar-brand {
+  font-family: 'Orbitron', Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+  letter-spacing: 0.04em;
+  text-shadow: 0 0 12px rgba(96,165,250,0.15);
+}
+.navbar-iss .nav-link {
+  color: rgba(255,255,255,0.85) !important;
+  transition: color .2s ease, transform .2s ease;
+}
+.navbar-iss .nav-link:hover, .navbar-iss .nav-item.active .nav-link {
+  color: #fff !important;
+  transform: translateY(-1px);
+}
+
 /* ISS Info hero layout */
 .hero-iss {
   background-color: #000;
