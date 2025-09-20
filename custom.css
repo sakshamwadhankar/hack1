@@ -103,3 +103,68 @@ body {
     -ms-user-select: none;
     user-select: none;
 }
+
+/* ISS Data Panel */
+.iss-panel {
+  position: fixed;
+  top: 16px;
+  left: 16px;
+  z-index: 2000;
+  background: rgba(11, 18, 32, 0.9);
+  color: #fff;
+  border-radius: 10px;
+  padding: 12px 14px;
+  min-width: 260px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+}
+.iss-panel h2 {
+  margin: 0 0 8px 0;
+  font-size: 16px;
+  color: #60a5fa;
+  font-weight: 700;
+}
+.iss-panel .row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  margin: 6px 0;
+}
+.iss-panel .label {
+  color: #9ca3af;
+}
+.iss-panel .mono {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
+}
+@media (max-width: 768px) {
+  .iss-panel {
+    top: auto;
+    bottom: 16px;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+}
+
+/* Place ISS panel at bottom-right */
+.iss-panel {
+  position: fixed; /* fixed to viewport */
+  bottom: 16px; /* distance from bottom */
+  right: 16px; /* distance from right */
+  top: auto; /* unset any previous top */
+  left: auto; /* unset any previous left */
+  transform: none; /* cancel any previous translate */
+  z-index: 2000; /* stay above map UI */
+}
+
+/* Ensure mobile keeps bottom-right too */
+@media (max-width: 768px) {
+  .iss-panel {
+    bottom: 12px;
+    right: 12px;
+    left: auto;
+    top: auto;
+    transform: none;
+  }
+}
