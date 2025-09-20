@@ -28,30 +28,45 @@
       </div>
     </nav>
 
-    <main class="container" role="main">
-      <div class="py-4">
-        <div class="row align-items-center">
-          <div class="col-md-7">
-            <h1 class="display-4">International Space Station</h1>
-            <p class="lead">A permanently crewed orbital laboratory that travels at ~28,000 km/h about 400 km above Earth, enabling groundbreaking research in microgravity.</p>
-            <ul class="list-unstyled mb-4">
-              <li><span class="fas fa-orbit mr-2"></span>Orbit: Low Earth Orbit (~51.6° inclination, ~92 min period)</li>
-              <li><span class="fas fa-long-arrow-alt-up mr-2"></span>Altitude: ~400–420 km</li>
-              <li><span class="fas fa-tachometer-alt mr-2"></span>Speed: ~27,600–28,000 km/h</li>
-              <li><span class="fas fa-user-astronaut mr-2"></span>Crew: Typically 6–7 astronauts from international partners</li>
-              <li><span class="fas fa-flask mr-2"></span>Research: Human health, materials science, Earth observation, technology demos</li>
-            </ul>
-            <a class="btn btn-primary" href="tracker.html">Open Live Tracker</a>
-            <a class="btn btn-outline-secondary ml-2" href="https://www.nasa.gov/international-space-station/" target="_blank" rel="noopener">Learn more at NASA</a>
-          </div>
-          <div class="col-md-5 text-center">
-            <img src="images/ISS.png" alt="Illustration of the ISS" class="img-fluid">
+    <main role="main">
+      <section class="hero-iss">
+        <div class="hero-container">
+          <div class="hero-row">
+            <div class="hero-col-left">
+              <p class="hero-kicker">International Space</p>
+              <p class="hero-kicker">Station</p>
+              <div class="hero-categories">
+                <div class="category-row">
+                  <p class="category-label">Orbit & Trajectory</p>
+                  <div class="category-marker-wrap"><div class="category-marker"></div></div>
+                </div>
+                <div class="category-row">
+                  <p class="category-label">Crew & Missions</p>
+                  <div class="category-marker-wrap"><div class="category-marker" style="opacity:.7"></div></div>
+                </div>
+                <div class="category-row">
+                  <p class="category-label">Science & Research</p>
+                  <div class="category-marker-wrap"><div class="category-marker" style="opacity:.72"></div></div>
+                </div>
+                <div class="category-row">
+                  <p class="category-label">Live Tracker</p>
+                  <div class="category-marker-wrap"><div class="category-marker" style="opacity:1"></div></div>
+                </div>
+              </div>
+            </div>
+            <div class="hero-col-right">
+              <h1 class="hero-title">ISS</h1>
+            </div>
           </div>
         </div>
-        <hr class="my-5">
-        <h2>How this tracker works</h2>
-        <p>We use publicly available Two-Line Elements (TLEs) to compute the ISS orbit and render it on a 3D globe. The tracker updates position and orbit path periodically to reflect the latest predictions.</p>
-      </div>
+      </section>
+
+      <section class="container py-5">
+        <h2>About the ISS</h2>
+        <p>The International Space Station is a permanently crewed orbital laboratory ~400 km above Earth, traveling at roughly 28,000 km/h. Partners include NASA, Roscosmos, ESA, JAXA, and CSA. Research spans human health, materials science, Earth observation, and technology demonstrations.</p>
+        <a class="btn btn-primary" href="tracker.html">Open Live Tracker</a>
+        <a class="btn btn-outline-secondary ml-2" href="https://www.nasa.gov/international-space-station/" target="_blank" rel="noopener">Learn more at NASA</a>
+      </section>
     </main>
 
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
