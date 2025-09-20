@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="description" content="International Space Station tracker">
+        <link rel="icon" href="images/world.png">
+
+        <title>ISS Tracker</title>
+
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+              integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.10/css/all.css" 
+              integrity="sha384-+d0P83n9kaQMCwj8F4RJB66tzIwOKmrdb46+porD/OvrJ+37WqIM7UoBtwHO6Nlg" crossorigin="anonymous">
+
+        <link href="custom.css" rel="stylesheet">
+    </head>
+
+    <body>
+        <div id="iss-data-panel" class="iss-panel"></div>
+        <nav class="navbar navbar-expand-md fixed-top navbar-dark bg-dark">
+            <a class="navbar-brand" href="tracker.html">
+                <img src="images/world.png" width="32" height="36" class="d-inline-block align-top" alt="">
+                ISS Tracker
+            </a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#main-menu" aria-controls="main-menu" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="main-menu">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">ISS Info</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="tracker.html">Tracker</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="page3.html">Page 3</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-toggle="collapse" href="#layers" role="button">
+                            <span class="fas fa-list" aria-hidden="true"></span>
+                            <span class="d-md-none d-lg-inline" aria-hidden="true">Layers</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-toggle="collapse" href="#settings" role="button">
+                            <span class="fas fa-cog" aria-hidden="true"></span>
+                            <span class="d-md-none d-lg-inline" aria-hidden="true">Settings</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
+        <main role="main" class="container-fluid p-0">
+
+            <div id="globe" class="globe p-0">
+                <canvas id="globe-canvas" class="d-block">
+                    Try Chrome or FireFox.
+                </canvas>            
+            </div>
+            
+            <div class="globe-overlay noninteractive">
+                <div class="card-columns">
+                    <div id="layers" class="collapse" >
+                        <div class="card globe-card interactive">
+                            <div class="card-header">
+                                <h5 class="card-title">
+                                    <span class="fas fa-list" aria-hidden="true"></span>
+                                    Layers
+                                    <button type="button" class="close pull-right" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button></h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="list-group" data-bind="template: { name: 'layer-list-template', foreach: overlayLayers}"></div>
+                                <hr/>
+                                <div class="list-group" data-bind="template: { name: 'layer-list-template', foreach: baseLayers}"></div>
+                            </div>                    
+                        </div>
+                    </div>
+                    <div id="settings" class="collapse">
+                        <div class="card globe-card interactive">
+                            <div class="card-header">
+                                <h5 class="card-title">
+                                    <span class="fas fa-cog" aria-hidden="true"></span>
+                                    Settings
+                                    <button type="button" class="close pull-right" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button></h5>
+                            </div>                
+                            <div class="card-body">
+                                <div class="list-group" data-bind="template: { name: 'layer-list-template', foreach: settingLayers}"></div>
+                                <hr/>
+                                <div class="list-group" data-bind="template: { name: 'layer-list-template', foreach: debugLayers}"></div>
+                            </div>                    
+                        </div>
+                    </div>
+                </div>
+
+                <script type="text/html" id="layer-list-template">
+                    <button type="button"  class="list-group-item list-group-item-action" 
+                            data-bind="click: $root.toggleLayer, css: { active: $data.enabled }">
+                        <span data-bind="text: $data.displayName"></span>
+                    </button>
+                </script>   
+            </div>
+            <div id="preview" class="hidden">
+                <div id="previewDialog" class="modal" tabindex="-1" role="dialog" >
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Search Results</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="modal-body-canvas pb-3" title="Preview" > 
+                                    <canvas id="preview-canvas">
+                                        <h1>Your browser does not support HTML5 Canvas.</h1>
+                                    </canvas>                
+                                </div>
+                                <div class="modal-body-table">
+                                    <div class="alert alert-warning alert-dismissible fade show" role="alert" data-bind="visible: showApiWarning">
+                                        MapQuest API key missing. Get a free key at 
+                                        <a href="https://developer.mapquest.com/" class="alert-link" target="_blank">developer.mapquest.com</a>
+                                        and set the MAPQUEST_API_KEY variable to your key.
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>                                        
+                                    </div>                                        
+                                    <table class="table table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col">Name</th>
+                                                <th scope="col">Type</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody data-bind="template: { name: 'search-results-template', foreach: searchResults}"></tbody>
+                                    </table>
+                                    <script type="text/html" id="search-results-template">
+                                        <tr data-bind="click: $parent.previewSelection">
+                                            <td><span data-bind="text: $data.display_name"></span></td>
+                                            <td><span data-bind="text: $data.type"></span></td>
+                                        </tr>
+                                    </script>                                        
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-primary" data-dismiss="modal" data-bind="enable: selected, click: gotoSelected">Go to</button>
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>                    
+            </div>
+
+        </main>
+
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>    
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.4.2/knockout-min.js"></script>
+        <script src="https://unpkg.com/worldwindjs@1.7.0/build/dist/worldwind.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/satellite.js/4.1.3/satellite.min.js" integrity="sha512-JxDmggH93+jdpfW+JF5CgtX1VNBAsvZVbswpqCtTMPyRvPkI+BMdm0L7JR9fbjxEoWt93AyPeiK0OrvfQWx++A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        <script src="https://unpkg.com/tle.js@^4"></script>
+        <script type="module" src="app.js"></script>
+        <script src="dataPanel.js"></script>
+
+        <!-- Botpress Cloud Webchat: inject script + bot-specific loader -->
+        <script src="https://cdn.botpress.cloud/webchat/v3.3/inject.js"></script>
+        <script src="https://files.bpcontent.cloud/2025/09/19/19/20250919190541-BQZ48JT8.js" defer></script>
+    </body>
+</html>
