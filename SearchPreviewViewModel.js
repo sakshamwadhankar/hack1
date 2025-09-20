@@ -7,13 +7,13 @@ export default class SearchPreviewViewModel {
 
     this.previewGlobe = new Globe("preview-canvas", "Mercator");
     let resultsLayer = new WorldWind.RenderableLayer("Results");
-    let bingMapsLayer = new WorldWind.BingRoadsLayer();
-    bingMapsLayer.detailControl = 1.25;
-    this.previewGlobe.addLayer(bingMapsLayer);
+    // Use non-Bing base layers to avoid API key issues
+    this.previewGlobe.addLayer(new WorldWind.BMNGLayer());
     this.previewGlobe.addLayer(resultsLayer);
 
     let placemarkAttributes = new WorldWind.PlacemarkAttributes(null);
-    placemarkAttributes.imageSource = WorldWind.configuration.baseUrl + "images/pushpins/castshadow-red.png";
+    const wwBase = (WorldWind.configuration && WorldWind.configuration.baseUrl) ? WorldWind.configuration.baseUrl : "";
+    placemarkAttributes.imageSource = wwBase ? (wwBase + "images/pushpins/castshadow-red.png") : "images/ISS.png";
     placemarkAttributes.imageScale = 0.5;
     placemarkAttributes.imageOffset = new WorldWind.Offset(
       WorldWind.OFFSET_FRACTION, 0.3,
