@@ -19,9 +19,9 @@
 
     <body>
         <div id="iss-data-panel" class="iss-panel"></div>
-        <nav class="navbar navbar-expand-md fixed-top navbar-dark bg-dark">
+        <nav class="navbar navbar-expand-md fixed-top navbar-dark">
             <a class="navbar-brand" href="https://github.com/worldwindearth/worldwind-web-app">
-                <img src="images/world.png" width="32" height="36" class="d-inline-block align-top" alt="">
+                <img src="images/world.png" width="32" height="32" class="d-inline-block align-top" alt="">
                 ISS Tracker
             </a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#main-menu" aria-controls="main-menu" aria-expanded="false" aria-label="Toggle navigation">
@@ -29,21 +29,36 @@
             </button>
 
             <div class="collapse navbar-collapse" id="main-menu">
-                <ul class="navbar-nav mr-auto">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <button id="btn-iss-toggle" class="btn btn-iss-toggle" title="Toggle ISS Position Panel">
+                            <span class="fas fa-satellite" aria-hidden="true"></span>
+                            <span class="d-none d-lg-inline">ISS</span>
+                        </button>
+                    </li>
+                    <li class="nav-item">
+                        <button id="btn-pov" class="btn btn-pov" title="ISS Live Stream POV">
+                            <span class="fas fa-video" aria-hidden="true"></span>
+                            <span class="d-none d-lg-inline">POV</span>
+                        </button>
+                    </li>
                     <li class="nav-item">
                         <a class="nav-link" data-toggle="collapse" href="#layers" role="button">
                             <span class="fas fa-list" aria-hidden="true"></span>
-                            <span class="d-md-none d-lg-inline" aria-hidden="true">Layers</span>
+                            <span class="d-none d-lg-inline">Layers</span>
                         </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" data-toggle="collapse" href="#settings" role="button">
                             <span class="fas fa-cog" aria-hidden="true"></span>
-                            <span class="d-md-none d-lg-inline" aria-hidden="true">Settings</span>
+                            <span class="d-none d-lg-inline">Settings</span>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <button id="btn-predict" class="btn btn-primary">Predict</button>
+                        <button id="btn-predict" class="btn btn-predict">
+                            <span class="fas fa-rocket" aria-hidden="true"></span>
+                            <span>Predict</span>
+                        </button>
                     </li>
                     <li class="nav-item">
                         <p id="demo"></p>
@@ -160,6 +175,33 @@
         </main>
 
         <div id="predict-modal" class="predict-modal" hidden></div>
+        
+        <!-- POV Video Modal -->
+        <div id="pov-modal" class="pov-modal" hidden>
+            <div class="pov-modal-content">
+                <div class="pov-modal-header">
+                    <h2>ISS Live Stream - Point of View</h2>
+                    <button id="pov-close" class="pov-close-btn" title="Close Video">
+                        <span class="fas fa-times"></span>
+                    </button>
+                </div>
+                <div class="pov-video-container">
+                    <iframe 
+                        id="pov-video"
+                        src="https://www.youtube.com/embed/yf5cEJULZXk?autoplay=0&mute=0&controls=1&showinfo=0&rel=0&modestbranding=1"
+                        title="ISS Live Stream POV"
+                        frameborder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowfullscreen>
+                    </iframe>
+                </div>
+                <div class="pov-modal-footer">
+                    <p class="pov-description">
+                        Experience the International Space Station from the crew's perspective with this live stream.
+                    </p>
+                </div>
+            </div>
+        </div>
 
         <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
@@ -171,6 +213,7 @@
         <script type="module" src="app.js"></script>
         <script src="dataPanel.js"></script>
         <script src="predict-modal.js"></script>
+        <script src="pov-modal.js"></script>
 
         <!-- Botpress Cloud Webchat: inject script + bot-specific loader -->
         <script src="https://cdn.botpress.cloud/webchat/v3.3/inject.js"></script>

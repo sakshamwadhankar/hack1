@@ -33,8 +33,19 @@
   function renderLoading() {
     panel.innerHTML = `
       <div>
-        <h2>ISS Position</h2>
-        <div class="row"><span class="label">Status:</span><span class="mono">Loading...</span></div>
+        <div class="iss-panel-header">
+          <h2>ISS Position</h2>
+          <button id="iss-close-btn" class="iss-close-btn" title="Close Panel">
+            <span class="fas fa-times"></span>
+          </button>
+        </div>
+        <div class="data-item">
+          <div class="data-icon">⏳</div>
+          <div class="data-content">
+            <div class="data-label">Status</div>
+            <div class="data-value">Loading...</div>
+          </div>
+        </div>
       </div>`;
   }
 
@@ -47,13 +58,54 @@
 
     panel.innerHTML = `
       <div>
-        <h2>ISS Position</h2>
-        <div class="row"><span class="label">Latitude:</span><span class="mono">${lat}°</span></div>
-        <div class="row"><span class="label">Longitude:</span><span class="mono">${lon}°</span></div>
-        <div class="row"><span class="label">Altitude:</span><span class="mono">${alt} km</span></div>
-        <div class="row"><span class="label">Velocity:</span><span class="mono">${vel} km/h</span></div>
-        <div class="row"><span class="label">Updated:</span><span class="mono">${last}</span></div>
-        <div class="row"><span class="label">Location:</span><span class="mono">${locationText}</span></div>
+        <div class="iss-panel-header">
+          <h2>ISS Position</h2>
+          <button id="iss-close-btn" class="iss-close-btn" title="Close Panel">
+            <span class="fas fa-times"></span>
+          </button>
+        </div>
+        <div class="data-item">
+          <div class="data-icon">🌍</div>
+          <div class="data-content">
+            <div class="data-label">Latitude</div>
+            <div class="data-value">${lat}°</div>
+          </div>
+        </div>
+        <div class="data-item">
+          <div class="data-icon">🌐</div>
+          <div class="data-content">
+            <div class="data-label">Longitude</div>
+            <div class="data-value">${lon}°</div>
+          </div>
+        </div>
+        <div class="data-item">
+          <div class="data-icon">⬆️</div>
+          <div class="data-content">
+            <div class="data-label">Altitude</div>
+            <div class="data-value">${alt} km</div>
+          </div>
+        </div>
+        <div class="data-item">
+          <div class="data-icon">⚡</div>
+          <div class="data-content">
+            <div class="data-label">Velocity</div>
+            <div class="data-value">${vel} km/h</div>
+          </div>
+        </div>
+        <div class="data-item">
+          <div class="data-icon">🕐</div>
+          <div class="data-content">
+            <div class="data-label">Updated</div>
+            <div class="data-value">${last}</div>
+          </div>
+        </div>
+        <div class="data-item">
+          <div class="data-icon">📍</div>
+          <div class="data-content">
+            <div class="data-label">Location</div>
+            <div class="data-value">${locationText}</div>
+          </div>
+        </div>
       </div>`;
   }
 
@@ -180,6 +232,63 @@
       setInterval(tick, REFRESH_MS);
     };
     head.appendChild(s);
+  }
+
+  // ISS Panel Toggle Functionality
+  function initISSToggle() {
+    const toggleBtn = document.getElementById('btn-iss-toggle');
+    const issPanel = document.getElementById('iss-data-panel');
+    
+    if (toggleBtn && issPanel) {
+      // Set initial state - panel hidden by default
+      issPanel.classList.remove('visible');
+      toggleBtn.classList.remove('active');
+      
+      // Toggle functionality
+      toggleBtn.addEventListener('click', () => {
+        const isVisible = issPanel.classList.contains('visible');
+        const layersCard = document.getElementById('layers');
+        const settingsCard = document.getElementById('settings');
+        
+        if (isVisible) {
+          issPanel.classList.remove('visible');
+          toggleBtn.classList.remove('active');
+          // Remove adjustment classes from cards
+          if (layersCard) layersCard.classList.remove('cards-adjusted');
+          if (settingsCard) settingsCard.classList.remove('cards-adjusted');
+        } else {
+          issPanel.classList.add('visible');
+          toggleBtn.classList.add('active');
+          // Add adjustment classes to cards
+          if (layersCard) layersCard.classList.add('cards-adjusted');
+          if (settingsCard) settingsCard.classList.add('cards-adjusted');
+        }
+      });
+      
+      // Close button functionality (delegated event listener)
+      document.addEventListener('click', (e) => {
+        if (e.target && e.target.id === 'iss-close-btn') {
+          issPanel.classList.remove('visible');
+          toggleBtn.classList.remove('active');
+          // Remove adjustment classes from cards
+          const layersCard = document.getElementById('layers');
+          const settingsCard = document.getElementById('settings');
+          if (layersCard) layersCard.classList.remove('cards-adjusted');
+          if (settingsCard) settingsCard.classList.remove('cards-adjusted');
+        }
+      });
+      
+      console.log('ISS toggle functionality initialized');
+    } else {
+      console.error('ISS toggle button or panel not found');
+    }
+  }
+
+  // Initialize toggle when DOM is ready
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initISSToggle);
+  } else {
+    initISSToggle();
   }
 
   renderLoading();

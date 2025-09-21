@@ -8,8 +8,14 @@
   const BDC_REV = 'https://api.bigdatacloud.net/data/reverse-geocode-client'; // [BigDataCloud]
   const FETCH_TIMEOUT = 8000;
 
-  // Build modal HTML once
-  const modal = document.getElementById('predict-modal');
+  // Wait for DOM to be ready
+  function initPredictModal() {
+    // Build modal HTML once
+    const modal = document.getElementById('predict-modal');
+    if (!modal) {
+      console.error('Predict modal element not found');
+      return;
+    }
   modal.innerHTML = `
     <div class="predict-card">
       <div class="predict-head">
@@ -78,8 +84,20 @@
   // Open/close
   const openBtn = document.getElementById('btn-predict');
   const closeBtn = document.getElementById('pm-close');
-  openBtn.onclick = () => modal.hidden = false;
-  closeBtn.onclick = () => modal.hidden = true;
+  
+  if (openBtn) {
+    openBtn.onclick = () => {
+      console.log('Predict button clicked');
+      modal.hidden = false;
+    };
+  } else {
+    console.error('Predict button not found');
+  }
+  
+  if (closeBtn) {
+    closeBtn.onclick = () => modal.hidden = true;
+  }
+  
   window.addEventListener('keydown', (e)=>{ if(e.key==='Escape') modal.hidden = true; });
 
   // Tabs
@@ -226,7 +244,7 @@
     const t = document.getElementById('pm-time').value;
     const out = document.getElementById('pm-out-time');
     if(!d){ out.innerHTML = '<div class="label">Pick a date</div>'; return; }
-    out.innerHTML = '<div class="label">Predicting…</div>';
+    out.innerHTML = '<div class="label loading">Predicting…</div>';
     try{
       const ts = toUnixUTC(d,t);
       const pos = await predictAtTimestamp(ts);
@@ -250,7 +268,7 @@
     const hours = Math.max(1, Math.min(240, parseInt(document.getElementById('pm-hours').value||'72',10)));
     const out = document.getElementById('pm-out-loc');
     if(!country || !city){ out.innerHTML = '<div class="label">Enter country and city</div>'; return; }
-    out.innerHTML = '<div class="label">Finding passes…</div>';
+    out.innerHTML = '<div class="label loading">Finding passes…</div>';
     try{
       const { lat, lon, label } = await geocodeFinal(country, state, city);
       const passes = await findPasses(lat, lon, minEl, hours, 30);
@@ -264,4 +282,12 @@
         </div>`).join('');
     }catch(e){ out.innerHTML = '<div class="label">Pass prediction failed. Try a simpler query.</div>'; }
   }; // [web:161][web:145][web:118][web:13]
+  }
+
+  // Initialize when DOM is ready
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initPredictModal);
+  } else {
+    initPredictModal();
+  }
 })();
