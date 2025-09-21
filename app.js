@@ -156,4 +156,9 @@ $(document).ready(function () {
   $('.collapse .close').on('click', function () {
     $(this).closest('.collapse').collapse('hide');
   });
+  
+  // Handle close buttons with data-dismiss="collapse"
+  $('button[data-dismiss="collapse"]').on('click', function () {
+    $(this).closest('.collapse').collapse('hide');
+  });
 });
